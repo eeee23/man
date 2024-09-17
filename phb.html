@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排名列表</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .ranking-list {
+            list-style: none;
+            padding: 0;
+            width: 300px;
+        }
+        .ranking-list li {
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #fff;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .ranking-list li .rank-number {
+            font-weight: bold;
+        }
+        .first {
+            background-color: #ffd700;
+            color: #333; /* 设置字体为深色 */
+        }
+        .second {
+            background-color: #c0c0c0;
+            color: #333; /* 设置字体为深色 */
+        }
+        .third {
+            background-color: #cd7f32;
+            color: #333; /* 保持白色字体，因为铜色较深 */
+        }
+        .score {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <ul class="ranking-list" id="ul"></ul>
+    <script>
+        const baseUrl = 'https://database.autumnrain.top';
+        let zj = {};
+        function removeNullOrUndefined(obj) {
+            // 检查 obj 是否为 null 或 undefined
+            if (obj === null || obj === undefined) {
+                console.error('传入的对象无效');
+                return {};
+            }
+
+            // 使用 Object.entries 和 filter 处理对象
+            return Object.fromEntries(
+                Object.entries(obj).filter(([key, value]) => value !== null && value !== undefined)
+            );
+        }
+        // 获取信息 (GET 请求)
+        async function getData() {
+            const response = await fetch(`${baseUrl}/g?name=zjanotmove`);
+            const result = await response.json();
+            return result;
+        }
+        async function savezj()
+        {
+            zj = await getData();
+        }
+        document.addEventListener('DOMContentLoaded', async () => {
+            await savezj();
+            let sortedObject = {};
+            zj = removeNullOrUndefined(zj.data)
+            const entrieses = await Object.entries(zj);
+            entrieses.sort(([, valueA], [, valueB]) => valueB - valueA);
+            sortedObject = Object.fromEntries(entrieses);
+            let count = 0;
+            for (let i in sortedObject)
+            {
+                count+=1;
+                if (sortedObject[i] == sortedObject[Object.keys(sortedObject)[0]])
+                {
+                    document.getElementById("ul").innerHTML = document.getElementById("ul").innerHTML + `<li class="first"><span class="rank-number">🏅</span><span>`+i+`</span><span class="score">`+sortedObject[i]+`分</span></li>`
+                }
+                else if (sortedObject[i] == sortedObject[Object.keys(sortedObject)[0]])
+                {
+                    document.getElementById("ul").innerHTML = document.getElementById("ul").innerHTML + `<li class="second"><span class="rank-number">🥈</span><span>`+i+`</span><span class="score">`+sortedObject[i]+`分</span></li>`
+                }
+                else if (sortedObject[i] == sortedObject[Object.keys(sortedObject)[0]])
+                {
+                    document.getElementById("ul").innerHTML = document.getElementById("ul").innerHTML + `<li class="third"><span class="rank-number">🥉</span><span>`+i+`</span><span class="score">`+sortedObject[i]+`分</span></li>`
+                }
+                else
+                {
+                    document.getElementById("ul").innerHTML = document.getElementById("ul").innerHTML + `<li><span class="rank-number">`+count+`</span><span>`+i+`</span><span class="score">`+sortedObject[i]+`分</span></li>`
+                }
+            }
+        });
+    </script>
+</body>
+</html>

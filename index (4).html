@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>man</title>
+    <style>
+        body {
+          margin: 0;
+          font-family: "Lato", sans-serif;
+        }
+        
+        .sidebar {
+          margin: 0;
+          padding: 0;
+          width: 200px;
+          background-color: #f1f1f1;
+          position: fixed;
+          height: 100%;
+          overflow: auto;
+        }
+        
+        .sidebar a {
+          display: block;
+          color: black;
+          padding: 16px;
+          text-decoration: none;
+        }
+         
+        .sidebar a.active {
+          background-color: #4CAF50;
+          color: white;
+        }
+        
+        .sidebar a:hover:not(.active) {
+          background-color: #555;
+          color: white;
+        }
+        
+        div.content {
+          margin-left: 200px;
+          padding: 1px 16px;
+          height: 100%;
+        }
+        
+        @media screen and (max-width: 700px) {
+          .sidebar {
+            width: 100%;
+            height: auto;
+            position: relative;
+          }
+          .sidebar a {float: left;}
+          div.content {margin-left: 0;}
+        }
+        
+        @media screen and (max-width: 400px) {
+          .sidebar a {
+            text-align: center;
+            float: none;
+          }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+      <a id="sy" class="active" href="javascript:change1();">首页</a>
+      <a id="phb" href="javascript:change();">排行榜</a>
+    </div>
+    
+    <div class="content">
+      <iframe id="iframe" name="iframe" height="100%" width="100%" src="./main.html" scrolling="auto" frameborder="0" onload="changeFrameHeight()"></iframe>
+    </div>
+    <script>
+        function changeFrameHeight() {
+            var iframe = document.getElementById("iframe");
+            iframe.height = document.documentElement.clientHeight;
+        }
+        window.onresize = function() {
+            changeFrameHeight();
+        }
+        function change()
+        {
+            document.getElementById("iframe").src = "./phb.html";
+            document.getElementById("sy").className = "";
+            document.getElementById("phb").className = "active";
+        }
+        function change1()
+        {
+            document.getElementById("iframe").src = "./main.html";
+            document.getElementById("phb").className = "";
+            document.getElementById("sy").className = "active";
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>man消消乐</title>
+  <script>
+        let globalIp = "";
+        let zj = {};
+        const baseUrl = 'https://database.autumnrain.top';
+        // 写入信息 (POST 请求)
+        async function writeData(value) {
+            valueo = JSON.stringify(value);
+            const response = await fetch(`${baseUrl}/w?name=zjanotmove&data=${valueo}`);
+            const result = response.ok;
+            if (!result)
+            {
+                alert("写入失败")
+            }
+        }
+        // 获取信息 (GET 请求)
+        async function getData() {
+            const response = await fetch(`${baseUrl}/g?name=zjanotmove`);
+            const result = await response.json();
+            return result;
+        }
+        async function savezj()
+        {
+            zj = await getData();
+        }
+        async function gip() {
+            const response = await fetch(`https://cetn.autumnrain.top/gipip`);
+            const result = await response.text();
+            const ip = result.split(": ")[1].trim();
+            return ip;
+        }
+        async function fetchAndSaveIp() {
+            globalIp = await gip();
+        }
+        document.addEventListener('DOMContentLoaded', async () => {
+            await fetchAndSaveIp();
+        });
+        var score = 0;
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                console.log("hidden");
+                zj[globalIp] = score;
+                writeData(zj);
+            }
+        });
+        window.addEventListener('beforeunload', function(event) {
+            zj[globalIp] = score;
+            writeData(zj);
+            // // 显示确认对话框
+            // const message = '我们会保存您的此次战绩来排名';
+            // event.returnValue = message;
+            // return message;
+        });
+  </script>
+  <style>
+    #app {
+			position: absolute;
+			left: 30%;
+			top: 50px;
+		}
+		.active {
+			opacity: 0.5;
+		}
+    .button {
+      position: relative;
+      padding: 10px 22px;
+      border-radius: 6px;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      background-color: #7d2ae8;
+      transition: all 0.2s ease;
+      left: 29%;
+    }
+    
+    .button:active {
+      transform: scale(0.96);
+    }
+    
+    .button:before,
+    .button:after {
+      position: absolute;
+      content: "";
+      width: 150%;
+      left: 50%;
+      height: 100%;
+      transform: translateX(-50%);
+      z-index: -1000;
+      background-repeat: no-repeat;
+    }
+    
+    .button:hover:before {
+      top: -70%;
+      background-image: radial-gradient(circle, #7d2ae8 20%, transparent 20%),
+        radial-gradient(circle, transparent 20%, #7d2ae8 20%, transparent 30%),
+        radial-gradient(circle, #7d2ae8 20%, transparent 20%),
+        radial-gradient(circle, #7d2ae8 20%, transparent 20%),
+        radial-gradient(circle, transparent 10%, #7d2ae8 15%, transparent 20%),
+        radial-gradient(circle, #7d2ae8 20%, transparent 20%),
+        radial-gradient(circle, #7d2ae8 20%, transparent 20%),
+        radial-gradient(circle, #7d2ae8 20%, transparent 20%),
+        radial-gradient(circle, #7d2ae8 20%, transparent 20%);
+      background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%,
+        10% 10%, 18% 18%;
+      background-position: 50% 120%;
+      animation: greentopBubbles 0.6s ease;
+    }
+    
+    @keyframes greentopBubbles {
+      0% {
+        background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%,
+          40% 90%, 55% 90%, 70% 90%;
+      }
+    
+      50% {
+        background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%,
+          50% 50%, 65% 20%, 90% 30%;
+      }
+    
+      100% {
+        background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%,
+          50% 40%, 65% 10%, 90% 20%;
+        background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+      }
+    }
+    
+    .button:hover::after {
+      bottom: -70%;
+      background-image: radial-gradient(circle, #7d2ae8 20%, transparent 20%),
+        radial-gradient(circle, #7d2ae8 20%, transparent 20%),
+        radial-gradient(circle, transparent 10%, #7d2ae8 15%, transparent 20%),
+        radial-gradient(circle, #7d2ae8 20%, transparent 20%),
+        radial-gradient(circle, #7d2ae8 20%, transparent 20%),
+        radial-gradient(circle, #7d2ae8 20%, transparent 20%),
+        radial-gradient(circle, #7d2ae8 20%, transparent 20%);
+      background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 20% 20%, 18% 18%;
+      background-position: 50% 0%;
+      animation: greenbottomBubbles 0.6s ease;
+    }
+    
+    @keyframes greenbottomBubbles {
+      0% {
+        background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%,
+          70% -10%, 70% 0%;
+      }
+    
+      50% {
+        background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%,
+          105% 0%;
+      }
+    
+      100% {
+        background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%,
+          110% 10%;
+        background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+      }
+    }
+    .p{
+        position: relative;
+        text-align: right;
+    }
+  </style>
+</head>
+
+<body>
+    <button id="btn" class="button" disabled="disabled">刷新</button>
+    <p id="score">score:</p>
+	<div id="app"></div>
+	<audio id="eliminationAudio-3" src="man whay.mp3"></audio>
+    <audio id="eliminationAudio-4" src="man.mp3"></audio>
+	<script>
+    	const app = document.getElementById('app');
+    	const btn = document.getElementById('btn');
+    	const emojis = ['icon1.jpg', 'icon2.jpg', 'icon3.jpg', 'icon4.jpg', 'icon5.jpg'];
+    	let cells = [];
+    
+    	class GameMap {
+    		constructor(x, y, size) {
+    			this.x = x;
+    			this.y = y;
+    			this.size = size;
+    			this.matrix = [];
+    			this.useSwap = false;
+    			this.handleable = true;
+    			this.types = emojis.length;
+    			this.collapseCount = 0;
+    			this.direction = null;
+    		}
+    		genMatrix() {
+    			const { x, y } = this;
+    			const row = new Array(x).fill(undefined);
+    			const matrix = new Array(y).fill(undefined).map(item => row);
+    			this.matrix = matrix;
+    			return this;
+    		}
+    		genRandom() {
+    			const { x, y } = this;
+    			this.matrix = this.matrix.map(row => row.map(item => Math.floor(Math.random() * this.types)));
+    			console.log(this.matrix);
+    			return this;
+    		}
+    		init() {
+    			cells = [];
+    			const { x, y } = this;
+    			for (let i = 0; i < y; i++) {
+    				for (let j = 0; j < x; j++) {
+    					const type = this.matrix[i][j];
+    					const random = Math.floor(Math.random() * this.types);
+    					cells.push(new Cell({
+    						type: (type == undefined) ? random : type,
+    						position: [j, i],
+    						status: (type == undefined) ? 'emerge' : 'common',
+    						left: undefined,
+    						top: undefined,
+    						right: undefined,
+    						bottom: undefined,
+    						instance: undefined
+    					}));
+    				}
+    			}
+    			cells.forEach(cell => {
+    				const [row, col] = cell.position;
+    				cell.left = cells.find(_cell => {
+    					const [_row, _col] = _cell.position;
+    					return (_row == row - 1) && (_col == col);
+    				});
+    				cell.right = cells.find(_cell => {
+    					const [_row, _col] = _cell.position;
+    					return (_row == row + 1) && (_col == col);
+    				});
+    				cell.top = cells.find(_cell => {
+    					const [_row, _col] = _cell.position;
+    					return (_row == row) && (_col == col - 1);
+    				});
+    				cell.bottom = cells.find(_cell => {
+    					const [_row, _col] = _cell.position;
+    					return (_row == row) && (_col == col + 1);
+    				});
+    				cell.genCell();
+    			});
+    			return this;
+    		}
+    		genSwap(firstCell, secondCell) {
+    			return new Promise((resolve, reject) => {
+    				const { instance: c1, type: t1 } = firstCell;
+    				const { instance: c2, type: t2 } = secondCell;
+    				const { left: x1, top: y1 } = c1.style;
+    				const { left: x2, top: y2 } = c2.style;
+    				setTimeout(() => {
+    					c1.style.left = x2;
+    					c1.style.top = y2;
+    					c2.style.left = x1;
+    					c2.style.top = y1;
+    				}, 0);
+    				setTimeout(() => {
+    					firstCell.instance = c2;
+    					firstCell.type = t2;
+    					secondCell.instance = c1;
+    					secondCell.type = t1;
+    					resolve('ok');
+    				}, 500);
+    			});
+    		}
+    		checkCollapse() {
+    			return cells.some(cell => cell.status == 'collapse');
+    		}
+    		markCollapseCells() {
+    		    let collapseCount = 0;
+    			cells.forEach(cell => {
+    				const { left, right, top, bottom, type } = cell;
+    				if (left?.type == type && right?.type == type) {
+    					left.status = 'collapse';
+    					cell.status = 'collapse';
+    					right.status = 'collapse';
+    					cell.direction = 'horizontal'; 
+    					collapseCount += 3;
+    					score += 1
+    					console.log("Play man")
+				        const audio1 = document.getElementById('eliminationAudio-3');
+				        audio1.play();
+    				}
+    				if (top?.type == type && bottom?.type == type) {
+    					top.status = 'collapse';
+    					cell.status = 'collapse';
+    					bottom.status = 'collapse';
+    					cell.direction = 'vertical';
+    					collapseCount += 3;
+    					score += 1
+    					console.log("Play man")
+				        const audio1 = document.getElementById('eliminationAudio-3');
+				        audio1.play();
+    				}
+    				// 水平检测: 检查当前方块的左右是否有相同类型的3个或更多方块
+                    if (left?.left?.type == type && left?.type == type && right?.type == type) {
+                        left.left.status = 'collapse';
+                        left.status = 'collapse';
+                        cell.status = 'collapse';
+                        right.status = 'collapse';
+                        cell.direction = 'horizontal';
+                        collapseCount += 4; // 连续4个的消除
+                        score += 2
+                        console.log("Play what can i say!")
+				        const audio2 = document.getElementById('eliminationAudio-4');
+				        audio2.play();
+                    } else if (left?.type == type && right?.right?.type == type && right?.type == type) {
+                        left.status = 'collapse';
+                        cell.status = 'collapse';
+                        right.status = 'collapse';
+                        right.right.status = 'collapse';
+                        cell.direction = 'horizontal';
+                        collapseCount += 4; // 连续4个的消除
+                        score += 2
+                        console.log("Play what can i say!")
+				        const audio2 = document.getElementById('eliminationAudio-4');
+				        audio2.play();
+                    }
+                    console.log(top?.top?.type,type);
+                    // 垂直检测: 检查当前方块的上下是否有相同类型的3个或更多方块
+                    if (top?.top?.type == type && top?.type == type && bottom?.type == type) {
+                        top.top.status = 'collapse';
+                        top.status = 'collapse';
+                        cell.status = 'collapse';
+                        bottom.status = 'collapse';
+                        cell.direction = 'vertical';
+                        collapseCount += 4; // 连续4个的消除
+                        score += 2
+                        console.log("Play what can i say!")
+				        const audio2 = document.getElementById('eliminationAudio-4');
+				        audio2.play();
+                    } else if (top?.type == type && bottom?.bottom?.type == type && bottom?.type == type) {
+                        top.status = 'collapse';
+                        cell.status = 'collapse';
+                        bottom.status = 'collapse';
+                        bottom.bottom.status = 'collapse';
+                        cell.direction = 'vertical';
+                        collapseCount += 4; // 连续4个的消除
+                        score += 2
+                        console.log("Play what can i say!")
+				        const audio2 = document.getElementById('eliminationAudio-4');
+				        audio2.play();
+                    }
+                    document.getElementById("score").innerHTML = "score:"+String(score);
+    				
+    			});
+    			return collapseCount;
+    		}
+    		genEmerge() {
+    			return new Promise((resolve, reject) => {
+    				this.regenCellMap();
+    				this.genCellMap();
+    				setTimeout(() => {
+    					cells.forEach(cell => {
+    						if (cell.status == 'emerge') {
+    							cell.instance.style.transform = 'scale(1)';
+    						}
+    					});
+    				}, 100);
+    				setTimeout(() => { resolve('ok'); }, 500);
+    			});
+    		}
+    		genCollapse() {
+    			return new Promise((resolve, reject) => {
+    				this.handleable = false;
+    				const collapseCount = this.markCollapseCells(); // 获取这次的消除数量
+    				if (collapseCount > 4)
+    				{
+    				    score += 4;
+    				}
+    				this.markCollapseCells();
+    				setTimeout(() => {
+    					cells.forEach(cell => {
+    						if (cell.status == 'collapse') {
+    							cell.instance.style.transform = 'scale(0)';
+    						}
+    					});
+    				}, 0);
+    				setTimeout(() => {
+    				    // // 使用 collapseCount 播放对应的音频
+    				    // if (collapseCount === 3) {
+    				    //     console.log("Play man")
+    				    //     const audio1 = document.getElementById('eliminationAudio-3');
+    				    //     audio1.play();
+    				        
+    				    // } else if (collapseCount === 4) {
+    				    //     console.log("Play what can i say!")
+    				    //     const audio2 = document.getElementById('eliminationAudio-4');
+    				    //     audio2.play();
+    				        
+    				    // }
+    					resolve('ok');
+    				}, 500);
+    			});
+    		}
+    		genDownfall() {
+    			return new Promise((resolve, reject) => {
+    				setTimeout(() => {
+    					cells.forEach(cell => {
+    						if (cell.status != 'collapse') {
+    							let downfallRange = 0;
+    							let bottom = cell.bottom;
+    							while (bottom) {
+    								if (bottom.status == 'collapse') {
+    									downfallRange += 1;
+    								}
+    								bottom = bottom.bottom;
+    							}
+    							cell.instance.style.top = (parseInt(cell.instance.style.top) + gameMap.size * downfallRange) + 'px';
+    						}
+    					});
+    				}, 0);
+    				setTimeout(() => {
+    					resolve('ok');
+    				}, 500);
+    			});
+    		}
+    		genShuffle() {
+    			console.log(cells);
+    			return new Promise((resolve, reject) => {
+    				setTimeout(() => {
+    					const len = this.x * this.y;
+    					const arr = new Array(len).fill(0).map((_, i) => i);
+    					const shuffle = arr => arr.sort(() => 0.5 - Math.random());
+    					const shuffleArray = shuffle(arr);
+    					console.log(shuffleArray);
+    					cells.forEach((cell, index) => {
+    						const newPosition = shuffleArray[index];
+    						cell.instance.style.top = Math.floor(newPosition / this.x) * this.size + 'px';
+    						cell.instance.style.left = newPosition % this.x * this.size + 'px';
+    					});
+    				}, 0);
+    				setTimeout(() => {
+    					this.regenCellMap();
+    					this.genCellMap();
+    					this.genLoop();
+    					resolve('ok');
+    				}, 500);
+    			});
+    		}
+    		async genLoop() {
+    			await gameMap.genCollapse();
+    			let status = cells.some(cell => cell.status == 'collapse');
+    			while (cells.some(cell => cell.status == 'collapse')) {
+    				await gameMap.genDownfall();
+    				await gameMap.genEmerge();
+    				await gameMap.genCollapse();
+    			}
+    			gameMap.handleable = true;
+    			return status;
+    		}
+    		regenCellMap() {
+    			const size = gameMap.size;
+    			const findInstance = (x, y) => {
+    				return cells.find(item => {
+    					const { offsetLeft, offsetTop } = item.instance;
+    					return (item.status != 'collapse' && (x == offsetLeft / size) && (y == offsetTop / size));
+    				})?.instance;
+    			};
+    			this.genMatrix();
+    			this.matrix = this.matrix.map((row, rowIndex) => row.map((item, itemIndex) => findInstance(itemIndex, rowIndex)?.type));
+    
+    			console.log(this.matrix);
+    
+    			this.init();
+    		}
+    		genCellMap() {
+    			app.innerHTML = '';
+    			cells.forEach(cell => {
+    				app.append(cell.instance);
+    			});
+    			console.log(cells);
+    			return this;
+    		}
+    	}
+    
+    	class Cell {
+    		constructor(options) {
+    			const { position, status, type, left, top, right, bottom, instance } = options;
+    			this.type = type;
+    			this.position = position;
+    			this.status = status;
+    			this.top = top;
+    			this.bottom = bottom;
+    			this.left = left;
+    			this.right = right;
+    			this.instance = instance;
+    		}
+    		genCell() {
+    			const cell = document.createElement('div');
+    			const size = gameMap.size;
+    			const [x, y] = this.position;
+    			cell.type = this.type;
+    			cell.style.cssText =
+    				`
+    				width:${size}px;
+    				height:${size}px;
+    				left:${size * x}px;
+    				top:${size * y}px;
+    				box-sizing:border-box;
+    				border:5px solid transparent;
+    				transition:0.5s;
+    				position:absolute;
+    				transform:scale(${this.status == 'emerge' ? '0' : '1'});
+    				display:flex;
+    				justify-content:center;
+    				align-items:center
+    				`;
+    			cell.innerHTML = `<img width="40" height="40" src="${emojis[this.type]}"/>`;
+    			this.instance = cell;
+    		}
+    	}
+    
+    	let gameMap = new GameMap(6, 10, 50);
+    
+    	gameMap.genMatrix().genRandom();
+    	gameMap.init().genCellMap();
+    	gameMap.genLoop();
+    
+    	let cell1 = null;
+    	let cell2 = null;
+    
+    	app.onclick = () => {
+    		if (gameMap.handleable) {
+    			const target = event.target.parentNode;
+    			const { left: x, top: y } = target.style;
+    			const _cell = cells.find(item => item.instance == target);
+    			if (!gameMap.useSwap) {
+    				target.className = 'active';
+    				cell1 = _cell;
+    			} else {
+    				cell2 = _cell;
+    				cell1.instance.className = '';
+    				if (['left', 'top', 'bottom', 'right'].some(item => cell1[item] == cell2)) {
+    					(async () => {
+    						await gameMap.genSwap(cell1, cell2);
+    						let res = await gameMap.genLoop();
+    						if (!res) {
+    							await gameMap.genSwap(cell1, cell2);
+    						}
+    					})();
+    				}
+    			}
+    			gameMap.useSwap = !gameMap.useSwap;
+    		}
+    	};
+    
+    	btn.onclick = () => {
+    		gameMap.genShuffle();
+    	}
+	</script>
+</body>
+
+</html>
